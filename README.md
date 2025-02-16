@@ -60,3 +60,29 @@ $ curl -d "username=admin&password=71urlkufpsdnlkadsf" http://165.227.106.113/po
 ### Flag
 
 `flag{p0st_d4t4_4ll_d4y}`
+
+## Don't Bump Your Head(er)
+
+> Try to bypass my security measure on this site! <http://165.227.106.113/header.php>
+
+### Solution
+
+Vào thử thách, trang web bảo chúng ta không thể truy cập vì sai user agent:
+
+![image](images/dont-bump-your-header/image-1.png)
+
+Khi xem HTML source code, chúng ta thấy chuỗi `Sup3rS3cr3tAg3nt` được chỉ định trong comment:
+
+![image](images/dont-bump-your-header/image-2.png)
+
+Sử dụng Burp Repeater để gửi request, chúng ta đổi giá trị của header `User-Agent` thành `Sup3rS3cr3tAg3nt`. Tiếp tục thấy bảo chúng ta không đến từ `awesomesauce.com`:
+
+![image](images/dont-bump-your-header/image-3.png)
+
+Vậy có thể hiểu server yêu cầu chúng ta cung cấp header `Referer` với giá trị `awesomesauce.com`. Thêm header vào và gửi request, chúng ta lụm được flag:
+
+![image](images/dont-bump-your-header/image-4.png)
+
+### Flag
+
+`flag{did_this_m3ss_with_y0ur_h34d}`
