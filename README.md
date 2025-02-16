@@ -1,4 +1,4 @@
-<!-- markdownlint-disable MD033 MD041 -->
+<!-- markdownlint-disable MD033 MD041 MD024-->
 <p align="center">
 <a href="https://ctflearn.com/"><img alt="https://ctflearn.com/" src="images/logo.png" width="90" height="90"></a>
 </p>
@@ -25,3 +25,38 @@ Có thể thấy đây là một thử thách liên quan tới lỗ hổng SQL I
 ### Flag
 
 `CTFlearn{th4t_is_why_you_n33d_to_sanitiz3_inputs}`
+
+## POST Practice
+
+> This website requires authentication, via POST. However, it seems as if someone has defaced our site. Maybe there is still some way to authenticate?
+>
+> <http://165.227.106.113/post.php>
+
+### Solution
+
+Truy cập vào URL được cung cấp, chúng ta có trang web sau:
+
+![image](images/post-practice/image-1.png)
+
+Xem HTML source code, chúng ta có thông tin đăng nhập `admin:71urlkufpsdnlkadsf`:
+
+![image](images/post-practice/image-2.png)
+
+Vào `/robots.txt`, chúng ta thấy `/70r3hnanldfspufdsoifnlds.html` được chỉ định:
+
+![image](images/post-practice/image-3.png)
+
+Truy cập vào `/70r3hnanldfspufdsoifnlds.html`, chúng ta thấy flag. Tuy nhiên, đó là fake flag:
+
+![image](images/post-practice/image-4.png)
+
+Vậy để lấy flag, chúng ta sẽ gửi thông tin đăng nhập thông qua POST request sử dụng lệnh `curl`:
+
+```text
+$ curl -d "username=admin&password=71urlkufpsdnlkadsf" http://165.227.106.113/post.php 
+<h1>flag{p0st_d4t4_4ll_d4y}</h1>
+```
+
+### Flag
+
+`flag{p0st_d4t4_4ll_d4y}`
