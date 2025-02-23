@@ -146,3 +146,33 @@ Chúng ta thấy có cột `f0und_m3`:
 ### Flag
 
 `abctf{uni0n_1s_4_gr34t_c0mm4nd}`
+
+## Calculat3 M3
+
+> Here! <http://web.ctflearn.com/web7/> I forget how we were doing those calculations, but something tells me it was pretty insecure.
+
+### Solution
+
+Vào URL của thử thách, chúng ta có một trang web cho phép dùng máy tính như sau:
+
+![image](images/calculat3-m3/image-1.png)
+
+Chúng ta có thể nhấn các số và thực hiện tính toán:
+
+![image](images/calculat3-m3/image-2.png)
+
+Nhận được kết quả khi nhấn "=":
+
+![image](images/calculat3-m3/image-3.png)
+
+Bên dưới là POST request khi chúng ta thực hiện phép tính:
+
+![image](images/calculat3-m3/image-4.png)
+
+Có thể thấy biểu thức được truyền vào tham số `expression`. Chúng ta kiểm tra với payload khai thác lỗ hổng OS Command Injection `;ls` sẽ thấy được flag:
+
+![image](images/calculat3-m3/image-5.png)
+
+### Flag
+
+`ctf{watch_0ut_f0r_th3_m0ng00s3}`
